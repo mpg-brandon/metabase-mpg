@@ -1232,51 +1232,6 @@ databaseChangeLog:
                   remarks: Tracks when the session was last used, for inactivity timeout enforcement
                   constraints:
                     nullable: true
-  - changeSet:
-      id: v58.2026-07-29T10:00:00
-      author: johnswanson
-      comment: Add query_execution.sandbox_details
-      changes:
-        - addColumn:
-            tableName: query_execution
-            columns:
-              - column:
-                  name: sandbox_details
-                  type: ${text.type}
-                  remarks: JSON array describing the sandboxes (row-level restrictions) applied to this execution
-                  constraints:
-                    nullable: true
-
-  - changeSet:
-      id: v58.2026-07-29T10:00:01
-      author: johnswanson
-      comment: Updated view v_query_log v7 - add sandbox_details (UXW-3767)
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            path: ./instance_analytics_views/query_log/v7/postgres-query_log.sql
-            relativeToChangelogFile: true
-        - sqlFile:
-            dbms: mysql,mariadb
-            path: ./instance_analytics_views/query_log/v7/mysql-query_log.sql
-            relativeToChangelogFile: true
-        - sqlFile:
-            dbms: h2
-            path: ./instance_analytics_views/query_log/v7/h2-query_log.sql
-            relativeToChangelogFile: true
-      rollback:
-        - sqlFile:
-            dbms: postgresql
-            path: ./instance_analytics_views/query_log/v6/postgres-query_log.sql
-            relativeToChangelogFile: true
-        - sqlFile:
-            dbms: mysql,mariadb
-            path: ./instance_analytics_views/query_log/v6/mysql-query_log.sql
-            relativeToChangelogFile: true
-        - sqlFile:
-            dbms: h2
-            path: ./instance_analytics_views/query_log/v6/h2-query_log.sql
-            relativeToChangelogFile: true
 
 # >>>>>>>>>> DO NOT ADD NEW MIGRATIONS BELOW THIS LINE! ADD THEM ABOVE <<<<<<<<<<
 
