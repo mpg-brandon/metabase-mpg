@@ -146,6 +146,7 @@
            config
            events
            models
+           permissions
            util}
    :model-imports #{:model/Card
                     :model/Collection
@@ -1215,6 +1216,7 @@
            premium-features
            request
            settings
+           setup
            sql-tools
            sync
            util
@@ -1326,6 +1328,7 @@
               lib
               lib-be
               llm
+              metrics
               models
               native-query-snippets
               notification
@@ -1377,21 +1380,18 @@
            metabase.metrics.core}
    :uses #{api
            collections
+           events
            lib
            lib-be
            lib-metric
            models
            parameters
            permissions
-           premium-features
            query-processor
            request
            server
            util}
-   :model-imports #{:model/Card
-                    :model/Field
-                    :model/Measure
-                    :model/Table}}
+   :model-imports #{:model/Card :model/Field :model/Measure}}
 
   model-persistence
   {:team "Graphy"
@@ -1584,6 +1584,7 @@
   {:team "UX West"
    :api  #{metabase.permissions.core
            metabase.permissions.init
+           metabase.permissions.metric
            metabase.permissions.schema}
    :uses #{api
            app-db
@@ -1608,6 +1609,7 @@
                     :model/PermissionsRevision}
    :model-imports #{:model/Collection
                     :model/Database
+                    :model/Field
                     :model/Table
                     :model/User}}
 
@@ -1910,6 +1912,7 @@
            legacy-mbql
            lib
            lib-be
+           lib-metric
            model-persistence
            models
            parameters
@@ -1928,6 +1931,7 @@
    :model-imports #{:model/Card
                     :model/DashboardCardSeries
                     :model/Database
+                    :model/NativeQuerySnippet
                     :model/QueryCache
                     :model/QueryExecution
                     :model/Table}}
@@ -1937,6 +1941,7 @@
    :api  #{metabase.remote-sync.core
            metabase.remote-sync.init}
    :uses #{api
+           events
            models
            premium-features}
    :model-imports #{:model/Collection}}
@@ -2078,7 +2083,8 @@
            metabase.server.middleware.session
            metabase.server.settings
            metabase.server.streaming-response} ; TODO -- too many API namespaces
-   :uses #{analytics
+   :uses #{agent-api
+           analytics
            analytics-interface
            api
            api-keys
@@ -2518,6 +2524,7 @@
            metabot
            metrics
            models
+           permissions
            system
            types
            util}
@@ -2823,6 +2830,7 @@
            lib
            lib-be
            models
+           permissions
            queries
            query-permissions
            query-processor
@@ -3068,6 +3076,7 @@
   enterprise/custom-viz-plugin
   {:team "Gadget"
    :api  #{metabase-enterprise.custom-viz-plugin.api
+           metabase-enterprise.custom-viz-plugin.api.sandbox-host
            metabase-enterprise.custom-viz-plugin.init
            metabase-enterprise.custom-viz-plugin.settings}
    :uses #{api
@@ -3273,6 +3282,7 @@
    :api  #{metabase-enterprise.erd.api}
    :uses #{api
            models
+           permissions
            util
            warehouse-schema}
    :model-imports #{:model/Database
@@ -3405,6 +3415,7 @@
            config
            events
            premium-features
+           request
            settings
            sso
            util}
@@ -3768,6 +3779,7 @@
    :api  #{metabase-enterprise.upload-management.api}
    :uses #{api
            models
+           permissions
            premium-features
            upload
            util}

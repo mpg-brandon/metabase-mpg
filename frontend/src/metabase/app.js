@@ -32,13 +32,12 @@ import { AppThemeProvider } from "metabase/AppThemeProvider";
 import { createSnowplowTracker } from "metabase/analytics";
 import { refetchSiteSettings } from "metabase/api";
 import { ModifiedBackend } from "metabase/common/components/dnd/ModifiedBackend";
-import registerDashboardVisualizations from "metabase/dashboard/visualizations/register";
+import { registerDashboardVisualizations } from "metabase/dashboard/visualizations/register";
 import { initializeInteractiveEmbedding } from "metabase/embedding/interactive-embedding";
 import { MetabotProvider } from "metabase/metabot/context";
 import { PLUGIN_APP_INIT_FUNCTIONS } from "metabase/plugins";
 import { MetabaseReduxProvider } from "metabase/redux";
-import { LOCATION_CHANGE } from "metabase/router";
-import { createV7Navigator } from "metabase/router/v7/navigator";
+import { LOCATION_CHANGE, createRouterNavigator } from "metabase/router";
 import { getUserId } from "metabase/selectors/user";
 import { GlobalStyles } from "metabase/styled-components/containers/GlobalStyles";
 import { PortalContainer } from "metabase/ui";
@@ -81,7 +80,7 @@ function _init(reducers, getRoutes, callback) {
 
   const store = getStore(
     reducers,
-    createV7Navigator(),
+    createRouterNavigator(),
     undefined,
     extraMiddlewares,
   );
@@ -106,9 +105,10 @@ function _init(reducers, getRoutes, callback) {
               <GlobalStyles />
               {createPortal(<PortalContainer />, document.body)}
               <MetabotProvider>
-                <RouterProvider onLocationChange={mirrorLocation}>
-                  {routes}
-                </RouterProvider>
+                <RouterProvider
+                  routes={routes}
+                  onLocationChange={mirrorLocation}
+                />
               </MetabotProvider>
             </AppThemeProvider>
           </OverlayStackProvider>

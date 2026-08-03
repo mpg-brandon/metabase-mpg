@@ -23,8 +23,9 @@ import {
   waitForLoaderToBeRemoved,
   within,
 } from "__support__/ui";
+import { Link } from "metabase/common/components/Link";
 import { getRawTableFieldId } from "metabase/metadata/utils/field";
-import { Link, Route, redirect } from "metabase/router";
+import { Route, redirect } from "metabase/router";
 import * as Urls from "metabase/urls";
 import { checkNotNull } from "metabase/utils/types";
 import { registerVisualizations } from "metabase/visualizations/register";
@@ -266,7 +267,7 @@ async function setup({
         <Route
           path="database/:databaseId/schema/:schemaId/table/:tableId"
           element={redirect(
-            "database/:databaseId/schema/:schemaId/table/:tableId/details",
+            "../database/:databaseId/schema/:schemaId/table/:tableId/details",
           )}
         />
         <Route
