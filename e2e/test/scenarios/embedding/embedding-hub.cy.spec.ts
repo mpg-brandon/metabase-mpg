@@ -291,6 +291,31 @@ describe("scenarios > embedding > embedding hub > security", () => {
   });
 });
 
+describe("scenarios > embedding > embedding hub > permissions", () => {
+  describe("pro", { tags: "@EE" }, () => {
+    beforeEach(() => {
+      H.restore();
+      cy.signInAsAdmin();
+      H.activateToken("pro-self-hosted");
+    });
+
+    it("keeps the permissions editor's links inside the hub", () => {
+      H.updateSetting("use-tenants", true);
+
+      cy.visit("/embedding/permissions");
+
+      cy.log("The editor renders at the hub's path, not admin's");
+      cy.url().should("include", "/embedding/permissions");
+
+      cy.log("Drilling into a group stays in the hub");
+      cy.findByTestId("permission-table").findAllByRole("link").first().click();
+
+      cy.url().should("include", "/embedding/permissions");
+      cy.url().should("not.include", "/admin/permissions");
+    });
+  });
+});
+
 function assertPublishedDashboardIsListed() {
   cy.findByTestId("embedding-hub-main").within(() => {
     // The hub clips its content and scrolls it internally, so this card sits
