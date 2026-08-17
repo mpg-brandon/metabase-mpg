@@ -8,12 +8,13 @@ import * as Urls from "metabase/urls";
 import type { TransformId } from "metabase-types/api";
 
 import {
-  CONTEXT_WINDOW_FULL_RATIO,
-  CONTEXT_WINDOW_WARNING_RATIO,
+  CONTEXT_WINDOW_FULL_PERCENT,
+  CONTEXT_WINDOW_WARNING_PERCENT,
   FIXED_METABOT_IDS,
   METABOT_REQUEST_IDS,
   type MetabotProfileId,
 } from "../constants";
+import { getContextWindowPercentUsage } from "../utils/context-usage";
 
 import type {
   MetabotAgentId,
@@ -259,18 +260,20 @@ export const getConversationChart = createSelector(
 
 export type MetabotLongChatNoticeVariant = "warning" | "full";
 
-export const getMetabotLongChatNotice = createSelector(
+export const getMetabotContextWindowPercentUsage = createSelector(
   [getMetabotConversation],
-  (convo): MetabotLongChatNoticeVariant | undefined => {
-    const usage = convo.lastTokenUsage;
-    if (!usage) {
-      return undefined;
-    }
-    const ratio = usage.contextTokens / usage.contextWindowTokens;
-    if (ratio >= CONTEXT_WINDOW_FULL_RATIO) {
+  (convo): number => getContextWindowPercentUsage(convo.lastTokenUsage),
+);
+
+export const getMetabotLongChatNotice = createSelector(
+  [getMetabotContextWindowPercentUsage],
+  (percentUsage): MetabotLongChatNoticeVariant | undefined => {
+    if (percentUsage >= CONTEXT_WINDOW_FULL_PERCENT) {
       return "full";
     }
-    return ratio >= CONTEXT_WINDOW_WARNING_RATIO ? "warning" : undefined;
+    return percentUsage >= CONTEXT_WINDOW_WARNING_PERCENT
+      ? "warning"
+      : undefined;
   },
 );
 

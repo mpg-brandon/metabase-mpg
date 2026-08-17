@@ -590,6 +590,48 @@
              (str "event does not match the wire schema: " (pr-str event))))
        events))))
 
+(deftest parts->aisdk-sse-xf-finish-reason-test
+  (testing "a truncated turn emits finishReason \"length\" and without an error"
+    (is (= ["text-start" "text-delta" "text-end" "finish"]
+           (mapv :type
+                 (sse-events [{:type :text :id "t1" :text "partial"}
+                              {:type :usage :model "m" :usage {:promptTokens 1 :completionTokens 2 :totalTokens 3}
+                               :finish-reason "length" :raw-finish-reason "max_tokens"}]))))
+    (is (=? {:type "finish" :finishReason "length"}
+            (last (sse-events [{:type :text :id "t1" :text "partial"}
+                               {:type :usage :model "m" :usage {:promptTokens 1 :completionTokens 2 :totalTokens 3}
+                                :finish-reason "length" :raw-finish-reason "max_tokens"}])))))
+  (testing "an in-turn error part does not override a length finish"
+    (is (=? {:type "finish" :finishReason "length"}
+            (last (sse-events [{:type :error :error {:message "tool blew up mid-turn"}}
+                               {:type :usage :model "m" :usage {:promptTokens 1 :completionTokens 2 :totalTokens 3}
+                                :finish-reason "length" :raw-finish-reason "max_tokens"}])))))
+  (testing "a filtered turn emits finishReason \"content-filter\""
+    (is (=? {:type "finish" :finishReason "content-filter"}
+            (last (sse-events [{:type :text :id "t1" :text "I can't help with that."}
+                               {:type :usage :model "m" :usage {:promptTokens 1 :completionTokens 2 :totalTokens 3}
+                                :finish-reason "content-filter" :raw-finish-reason "refusal"}])))))
+  (testing "an in-turn error part outranks a content-filter finish — the errored turn is rewound"
+    (is (=? {:type "finish" :finishReason "error"}
+            (last (sse-events [{:type :error :error {:message "tool blew up mid-turn"}}
+                               {:type :usage :model "m" :usage {:promptTokens 1 :completionTokens 2 :totalTokens 3}
+                                :finish-reason "content-filter" :raw-finish-reason "refusal"}])))))
+  (testing "every legal provider finish reason survives normalization"
+    (doseq [finish-reason self.core/finish-reasons]
+      (is (=? {:type "finish" :finishReason finish-reason}
+              (last (sse-events [{:type :usage
+                                  :model "m"
+                                  :usage {:promptTokens 1 :completionTokens 2}
+                                  :finish-reason finish-reason}]))))))
+  (testing "an in-turn error outranks every non-length provider finish reason"
+    (doseq [finish-reason (disj self.core/finish-reasons "length" "error")]
+      (is (=? {:type "finish" :finishReason "error"}
+              (last (sse-events [{:type :error :error {:message "boom"}}
+                                 {:type :usage
+                                  :model "m"
+                                  :usage {:promptTokens 1 :completionTokens 2}
+                                  :finish-reason finish-reason}])))))))
+
 (deftest parts->aisdk-sse-xf-lifecycle-test
   (testing "first :start opens the message and a step; later :start is a step boundary; completion closes"
     (is (= [["start" "msg-1"] ["start-step" nil]

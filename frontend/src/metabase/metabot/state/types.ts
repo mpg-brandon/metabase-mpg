@@ -165,6 +165,11 @@ export type MetabotReactionsState = {
   suggestedTransforms: MetabotSuggestedTransform[];
 };
 
+export type MetabotContextUsage = {
+  contextTokens: number;
+  contextWindowTokens: number;
+};
+
 export interface MetabotConverstationState {
   conversationId: string;
   loadId: string;
@@ -177,7 +182,7 @@ export interface MetabotConverstationState {
   stateBeforeTurn?: MetabotStateContext;
   activeToolCalls: MetabotToolCall[];
   activeChainId: string | undefined;
-  lastTokenUsage?: { contextTokens: number; contextWindowTokens: number };
+  lastTokenUsage?: MetabotContextUsage;
   profileOverride: MetabotProfileId | undefined;
   pendingMessageExternalId: string | undefined;
   experimental: {

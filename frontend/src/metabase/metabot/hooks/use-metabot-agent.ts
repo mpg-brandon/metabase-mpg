@@ -7,7 +7,10 @@ import { useMaybeLocation } from "metabase/router";
 import * as Urls from "metabase/urls";
 
 import { trackMetabotRequestSent } from "../analytics";
-import type { MetabotProfileId } from "../constants";
+import {
+  CONTEXT_WINDOW_FULL_PERCENT,
+  type MetabotProfileId,
+} from "../constants";
 import {
   type MetabotAgentId,
   type MetabotPromptSubmissionResult,
@@ -17,6 +20,7 @@ import {
   getDebugMode,
   getIsProcessing,
   getMessages,
+  getMetabotContextWindowPercentUsage,
   getMetabotConversationForkedFrom,
   getMetabotConversationId,
   getMetabotConversationTitle,
@@ -53,7 +57,15 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
   const longChatNotice = useSelector((state) =>
     getMetabotLongChatNotice(state, agentId),
   );
-  const isContextWindowFull = longChatNotice === "full";
+  const contextWindowPercentUsage = useSelector((state) =>
+    getMetabotContextWindowPercentUsage(state, agentId),
+  );
+  const isDoingScience = useSelector((state) =>
+    getIsProcessing(state, agentId),
+  );
+  const isContextWindowFull =
+    contextWindowPercentUsage >= CONTEXT_WINDOW_FULL_PERCENT;
+  const canSubmitPrompt = !isDoingScience && !isContextWindowFull;
 
   const setVisible = useCallback(
     (visible: boolean) => dispatch(setVisibleAction({ agentId, visible })),
@@ -201,9 +213,11 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
       getMetabotConversationForkedFrom(state, agentId),
     ),
     messages: useSelector((state) => getMessages(state, agentId)),
-    isDoingScience: useSelector((state) => getIsProcessing(state, agentId)),
+    isDoingScience,
     longChatNotice,
+    contextWindowPercentUsage,
     isContextWindowFull,
+    canSubmitPrompt,
     activeToolCalls: useSelector((state) => getActiveToolCalls(state, agentId)),
     debugMode: useSelector(getDebugMode),
     reactions: useSelector(getMetabotReactionsState),
