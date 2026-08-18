@@ -100,11 +100,23 @@
              [:map {:closed false}
               [:source QuerySource]]]]])
 
+(def ^:private MetricCardResponse
+  [:map {:closed true}
+   [:id                     ms/PositiveInt]
+   [:name                   ms/NonBlankString]
+   [:type                   [:enum :metric]]
+   [:collection_id          [:maybe ms/PositiveInt]]
+   [:dataset_query          ms/Map]
+   [:database_id            ms/PositiveInt]
+   [:display                [:maybe :string]]
+   [:visualization_settings [:maybe ms/Map]]
+   [:description            [:maybe :string]]])
+
 (def ^:private QueryResolutionResponse
   [:map
    [:database_id ms/PositiveInt]
    [:dataset_query ms/Map]
-   [:metrics [:sequential ms/Map]]])
+   [:metrics [:sequential MetricCardResponse]]])
 
 (def ^:private ResourcePermissionsRequest
   [:map
