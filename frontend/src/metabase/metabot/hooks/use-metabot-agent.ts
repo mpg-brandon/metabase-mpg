@@ -57,11 +57,7 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
   const contextWindowPercentUsage = useSelector((state) =>
     getMetabotContextWindowPercentUsage(state, agentId),
   );
-  const isDoingScience = useSelector((state) =>
-    getIsProcessing(state, agentId),
-  );
   const isContextWindowFull = longChatNotice === "full";
-  const canSubmitPrompt = !isDoingScience;
 
   const setVisible = useCallback(
     (visible: boolean) => dispatch(setVisibleAction({ agentId, visible })),
@@ -204,11 +200,10 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
       getMetabotConversationForkedFrom(state, agentId),
     ),
     messages: useSelector((state) => getMessages(state, agentId)),
-    isDoingScience,
+    isDoingScience: useSelector((state) => getIsProcessing(state, agentId)),
     longChatNotice,
     contextWindowPercentUsage,
     isContextWindowFull,
-    canSubmitPrompt,
     activeToolCalls: useSelector((state) => getActiveToolCalls(state, agentId)),
     debugMode: useSelector(getDebugMode),
     reactions: useSelector(getMetabotReactionsState),
