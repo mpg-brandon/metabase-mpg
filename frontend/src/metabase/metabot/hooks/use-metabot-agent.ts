@@ -61,7 +61,7 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
     getIsProcessing(state, agentId),
   );
   const isContextWindowFull = longChatNotice === "full";
-  const canSubmitPrompt = !isDoingScience && !isContextWindowFull;
+  const canSubmitPrompt = !isDoingScience;
 
   const setVisible = useCallback(
     (visible: boolean) => dispatch(setVisibleAction({ agentId, visible })),
