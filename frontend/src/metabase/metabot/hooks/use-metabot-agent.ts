@@ -7,10 +7,7 @@ import { useMaybeLocation } from "metabase/router";
 import * as Urls from "metabase/urls";
 
 import { trackMetabotRequestSent } from "../analytics";
-import {
-  CONTEXT_WINDOW_FULL_PERCENT,
-  type MetabotProfileId,
-} from "../constants";
+import type { MetabotProfileId } from "../constants";
 import {
   type MetabotAgentId,
   type MetabotPromptSubmissionResult,
@@ -63,8 +60,7 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
   const isDoingScience = useSelector((state) =>
     getIsProcessing(state, agentId),
   );
-  const isContextWindowFull =
-    contextWindowPercentUsage >= CONTEXT_WINDOW_FULL_PERCENT;
+  const isContextWindowFull = longChatNotice === "full";
   const canSubmitPrompt = !isDoingScience && !isContextWindowFull;
 
   const setVisible = useCallback(
@@ -98,10 +94,6 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
         focusInput?: boolean;
       },
     ) => {
-      if (isContextWindowFull) {
-        return;
-      }
-
       setPrompt("");
 
       if (!visible && !options?.preventOpenSidebar) {
@@ -144,7 +136,6 @@ export const useMetabotAgent = (agentId: MetabotAgentId = "omnibot") => {
       promptInputRef,
       setPrompt,
       isTransformsPage,
-      isContextWindowFull,
     ],
   );
 

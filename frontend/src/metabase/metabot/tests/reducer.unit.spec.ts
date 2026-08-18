@@ -597,8 +597,15 @@ describe("metabot reducer", () => {
       ]);
     });
 
-    it("releases the active chain id when a snapshot replaces the conversation", () => {
-      const store = createTestStore();
+    it("releases the active chain id and context usage when a snapshot replaces the conversation", () => {
+      const store = createTestStore({
+        conversations: {
+          ...getMetabotInitialState().conversations,
+          [agentId]: createConversation(agentId, {
+            lastTokenUsage: { contextTokens: 950, contextWindowTokens: 1000 },
+          }),
+        },
+      });
       store.dispatch(metabotActions.reasoningStart({ agentId }));
       store.dispatch(
         metabotActions.setConversationSnapshot({
@@ -609,6 +616,7 @@ describe("metabot reducer", () => {
       );
 
       expect(getConvo(store)?.activeChainId).toBeUndefined();
+      expect(getConvo(store)?.lastTokenUsage).toBeUndefined();
     });
   });
 });

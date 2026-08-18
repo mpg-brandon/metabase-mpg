@@ -8,13 +8,15 @@ import * as Urls from "metabase/urls";
 import type { TransformId } from "metabase-types/api";
 
 import {
-  CONTEXT_WINDOW_FULL_PERCENT,
   CONTEXT_WINDOW_WARNING_PERCENT,
   FIXED_METABOT_IDS,
   METABOT_REQUEST_IDS,
   type MetabotProfileId,
 } from "../constants";
-import { getContextWindowPercentUsage } from "../utils/context-usage";
+import {
+  getContextWindowPercentUsage,
+  isContextWindowFull,
+} from "../utils/context-usage";
 
 import type {
   MetabotAgentId,
@@ -266,9 +268,9 @@ export const getMetabotContextWindowPercentUsage = createSelector(
 );
 
 export const getMetabotLongChatNotice = createSelector(
-  [getMetabotContextWindowPercentUsage],
-  (percentUsage): MetabotLongChatNoticeVariant | undefined => {
-    if (percentUsage >= CONTEXT_WINDOW_FULL_PERCENT) {
+  [getMetabotConversation, getMetabotContextWindowPercentUsage],
+  (convo, percentUsage): MetabotLongChatNoticeVariant | undefined => {
+    if (isContextWindowFull(convo.lastTokenUsage)) {
       return "full";
     }
     return percentUsage >= CONTEXT_WINDOW_WARNING_PERCENT
