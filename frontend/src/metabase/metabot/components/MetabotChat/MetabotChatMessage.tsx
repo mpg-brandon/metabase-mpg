@@ -501,6 +501,8 @@ const IncompleteTurnAlert = ({
   const metabotName = useSetting("metabot-name");
   const { message, continuable } = match(finishReason)
     .with("length", () =>
+      // "length" is overloaded, occurs when context window has been met (unrecoverable)
+      // or when the max_tokens has been met (recoverable)
       contextWindowFull
         ? {
             message: t`This conversation has reached its maximum length and can't continue. Please start a new chat.`,
