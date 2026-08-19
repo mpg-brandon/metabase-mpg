@@ -1,6 +1,6 @@
 import type {
   DataAppMetadata,
-  DataAppMetricCard,
+  DataAppMetric,
   DraftDataAppMetadata,
   MetabaseAction,
   MetabaseCard,
@@ -91,7 +91,7 @@ export class MetabaseClient {
     const resolved = await this.request<{
       database_id: number;
       dataset_query: Record<string, unknown>;
-      metrics?: DataAppMetricCard[];
+      metrics?: DataAppMetric[];
     }>(`apps/${encodeURIComponent(slug)}/query`, {
       method: "POST",
       body: JSON.stringify({ stages: [query] }),
