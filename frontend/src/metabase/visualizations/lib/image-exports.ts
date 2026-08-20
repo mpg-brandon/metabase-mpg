@@ -4,8 +4,6 @@ import { css } from "@emotion/react";
 import GlobalDashboardS from "metabase/css/dashboard.module.css";
 import { isEmbeddingSdk } from "metabase/embedding-sdk/config";
 
-import { getCardKey } from "./utils";
-
 export const SAVING_DOM_IMAGE_CLASS = "saving-dom-image";
 export const SAVING_DOM_IMAGE_HIDDEN_CLASS = "saving-dom-image-hidden";
 export const SAVING_DOM_IMAGE_DISPLAY_NONE_CLASS =
@@ -205,33 +203,4 @@ export const getDashboardImage = async (
   });
 
   return canvas.toDataURL("image/png").split(",")[1];
-};
-
-export const getChartSelector = (
-  input: { dashcardId: number | undefined } | { cardId: number | undefined },
-) => {
-  if ("dashcardId" in input) {
-    return `[data-dashcard-key='${input.dashcardId}']`;
-  } else {
-    return `[data-card-key='${getCardKey(input.cardId)}']`;
-  }
-};
-
-export const getChartImagePngDataUri = async (
-  selector: string,
-): Promise<string | undefined> => {
-  const chartRoot = document.querySelector(selector);
-
-  if (!chartRoot || !(chartRoot instanceof HTMLElement)) {
-    console.warn("No chart element found", selector);
-    return undefined;
-  }
-
-  const canvas = await getDomToCanvas(chartRoot, {
-    onclone: (_doc: Document, node: HTMLElement) => {
-      node.classList.add(SAVING_DOM_IMAGE_CLASS);
-    },
-  });
-
-  return canvas.toDataURL("image/png");
 };

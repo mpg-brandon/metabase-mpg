@@ -1,7 +1,6 @@
 import { match } from "ts-pattern";
 
 import { setTemplateTagConfig } from "metabase/query_builder/actions";
-import { AIQuestionAnalysisSidebar } from "metabase/query_builder/components/AIQuestionAnalysisSidebar";
 import { QuestionInfoSidebar } from "metabase/query_builder/components/view/sidebars/QuestionInfoSidebar";
 import { QuestionSettingsSidebar } from "metabase/query_builder/components/view/sidebars/QuestionSettingsSidebar";
 import { TimelineSidebar } from "metabase/query_builder/components/view/sidebars/TimelineSidebar";
@@ -50,8 +49,6 @@ interface NativeQueryRightSidebarProps {
   isShowingTimelineSidebar: boolean;
   isShowingQuestionInfoSidebar: boolean;
   isShowingQuestionSettingsSidebar: boolean;
-  isShowingAIQuestionAnalysisSidebar: boolean;
-  onCloseAIQuestionAnalysisSidebar: () => void;
   visibleTimelineEventIds: number[];
   selectedTimelineEventIds: number[];
   databases: Database[];
@@ -73,8 +70,6 @@ export const NativeQueryRightSidebar = (
 ) => {
   const {
     question,
-    timelineEvents,
-    timelines,
     toggleTemplateTagsEditor,
     toggleDataReference,
     toggleSnippetSidebar,
@@ -90,8 +85,6 @@ export const NativeQueryRightSidebar = (
     isShowingTimelineSidebar,
     isShowingQuestionInfoSidebar,
     isShowingQuestionSettingsSidebar,
-    isShowingAIQuestionAnalysisSidebar,
-    onCloseAIQuestionAnalysisSidebar,
   } = props;
 
   const dispatch = useDispatch();
@@ -104,7 +97,6 @@ export const NativeQueryRightSidebar = (
     isShowingTimelineSidebar,
     isShowingQuestionInfoSidebar,
     isShowingQuestionSettingsSidebar,
-    isShowingAIQuestionAnalysisSidebar,
   })
     .with({ isShowingTemplateTagsEditor: true }, () => {
       const query = question.legacyNativeQuery();
@@ -145,14 +137,6 @@ export const NativeQueryRightSidebar = (
     ))
     .with({ isShowingQuestionSettingsSidebar: true }, () => (
       <QuestionSettingsSidebar question={question} />
-    ))
-    .with({ isShowingAIQuestionAnalysisSidebar: true }, () => (
-      <AIQuestionAnalysisSidebar
-        question={question}
-        visibleTimelineEvents={timelineEvents}
-        timelines={timelines}
-        onClose={onCloseAIQuestionAnalysisSidebar}
-      />
     ))
     .otherwise(() => null);
 };
