@@ -16,7 +16,7 @@ import { createMockSettings } from "metabase-types/api/mocks";
 
 import type { SetupGuideChecklist } from "../../api/setup-guide";
 
-import { SetupSsoPage } from "./SetupSsoPage";
+import { SetupSsoPage, getCompletedSteps } from "./SetupSsoPage";
 
 const defaultChecklist: SetupGuideChecklist = {
   "add-data": false,
@@ -134,6 +134,52 @@ describe("SetupSsoPage", () => {
       "jwt-shared-secret": "test-signing-key",
       "jwt-enabled": true,
       "jwt-group-sync": true,
+    });
+  });
+});
+
+describe("getCompletedSteps", () => {
+  it("does not tick the later steps while JWT is off", () => {
+    // sso-auth-manual-tested is latched: it survives JWT being turned back
+    // off, and on its own would mark two locked steps done.
+    expect(
+      getCompletedSteps({
+        isJwtSetupDone: false,
+        isSsoAuthManualTested: true,
+        isAddEndpointConfirmed: true,
+      }),
+    ).toEqual({
+      "setup-jwt": false,
+      "add-endpoint": false,
+      "test-jwt": false,
+    });
+  });
+
+  it("ticks them again once JWT is configured", () => {
+    expect(
+      getCompletedSteps({
+        isJwtSetupDone: true,
+        isSsoAuthManualTested: true,
+        isAddEndpointConfirmed: false,
+      }),
+    ).toEqual({
+      "setup-jwt": true,
+      "add-endpoint": true,
+      "test-jwt": true,
+    });
+  });
+
+  it("ticks the endpoint step from the in-session confirmation alone", () => {
+    expect(
+      getCompletedSteps({
+        isJwtSetupDone: true,
+        isSsoAuthManualTested: false,
+        isAddEndpointConfirmed: true,
+      }),
+    ).toEqual({
+      "setup-jwt": true,
+      "add-endpoint": true,
+      "test-jwt": false,
     });
   });
 });

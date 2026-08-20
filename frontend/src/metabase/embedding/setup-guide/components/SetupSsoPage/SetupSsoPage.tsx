@@ -30,18 +30,16 @@ export const SetupSsoPage = () => {
     stepperRef.current?.goToNextStep();
   };
 
-  const completedSteps = useMemo(() => {
-    const isSsoAuthManualTested =
-      checklist?.["sso-auth-manual-tested"] ?? false;
-    const isJwtSetupDone =
-      isJwtConfigured || (checklist?.["sso-configured"] ?? false);
-
-    return {
-      "setup-jwt": isJwtSetupDone,
-      "add-endpoint": isAddEndpointConfirmed || isSsoAuthManualTested,
-      "test-jwt": isSsoAuthManualTested,
-    };
-  }, [checklist, isAddEndpointConfirmed, isJwtConfigured]);
+  const completedSteps = useMemo(
+    () =>
+      getCompletedSteps({
+        isJwtSetupDone:
+          isJwtConfigured || (checklist?.["sso-configured"] ?? false),
+        isSsoAuthManualTested: checklist?.["sso-auth-manual-tested"] ?? false,
+        isAddEndpointConfirmed,
+      }),
+    [checklist, isAddEndpointConfirmed, isJwtConfigured],
+  );
 
   const lockedSteps = useMemo(() => {
     return {
@@ -98,3 +96,26 @@ export const SetupSsoPage = () => {
     </Stack>
   );
 };
+
+/**
+ * Both later steps are gated on step 1 because `sso-auth-manual-tested` is
+ * latched: it never reverts, so turning JWT back off would otherwise leave two
+ * locked steps wearing a checkmark. Re-enabling JWT brings the ticks back --
+ * nothing is unset.
+ */
+export function getCompletedSteps({
+  isJwtSetupDone,
+  isSsoAuthManualTested,
+  isAddEndpointConfirmed,
+}: {
+  isJwtSetupDone: boolean;
+  isSsoAuthManualTested: boolean;
+  isAddEndpointConfirmed: boolean;
+}) {
+  return {
+    "setup-jwt": isJwtSetupDone,
+    "add-endpoint":
+      isJwtSetupDone && (isAddEndpointConfirmed || isSsoAuthManualTested),
+    "test-jwt": isJwtSetupDone && isSsoAuthManualTested,
+  };
+}
