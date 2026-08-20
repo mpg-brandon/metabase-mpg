@@ -1124,8 +1124,8 @@
    :uses #{analytics
            api
            driver
-           legacy-mbql
            lib
+           lib-be
            models
            permissions
            query-processor
@@ -1926,7 +1926,6 @@
   {:team "UX West"
    :api  #{metabase.query-permissions.core}
    :uses #{api
-           legacy-mbql
            lib
            lib-be
            models
@@ -2467,7 +2466,6 @@
            metabase.tiles.init
            metabase.tiles.settings}
    :uses #{api
-           legacy-mbql
            lib
            lib-be
            parameters
@@ -3615,7 +3613,6 @@
            audit-app
            driver
            events
-           legacy-mbql
            lib
            lib-be
            models
