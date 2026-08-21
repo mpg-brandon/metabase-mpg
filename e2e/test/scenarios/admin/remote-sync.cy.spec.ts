@@ -1033,59 +1033,62 @@ describe("Remote Sync", () => {
       H.configureGit("read-write");
     });
 
-    it("shows conflict modal with available options when remote would override local", () => {
-      // The conflict is reported asynchronously: the pull POSTs /import (returning only a task
-      // id), the task detects the conflict server-side, and the app only learns about it on a
-      // current-task poll. Anchor each step on those events instead of racing the modal render
-      // against the import's runtime.
-      cy.intercept("POST", "/api/ee/remote-sync/import").as("pullImport");
+    it(
+      "shows conflict modal with available options when remote would override local",
+      // The code-split transforms page starts its requests late under CI throttling
+      { requestTimeout: 15000 },
+      () => {
+        cy.intercept("POST", "/api/ee/remote-sync/import").as("pullImport");
+        cy.intercept("GET", "/api/transform*").as("getTransforms");
 
-      H.DataStudio.Transforms.visit();
+        cy.visit("/data-studio/transforms");
+        cy.wait("@getTransforms");
 
-      cy.findByRole("treegrid").within(() => {
-        cy.findByText("Batman's Existing Transform").should("be.visible");
-      });
+        cy.findByRole("treegrid").within(() => {
+          cy.findByText("Batman's Existing Transform").should("be.visible");
+        });
 
-      H.clickPullOption();
+        H.clickPullOption();
 
-      cy.log("wait for the pull to start and the conflict to be detected");
-      cy.wait("@pullImport");
-      H.pollForTask({ taskName: "import", until: "conflict" });
+        cy.log("wait for the pull to start and the conflict to be detected");
+        cy.wait("@pullImport");
+        // The conflict is detected by the import task server-side; the app learns about it on a poll
+        H.pollForTask({ taskName: "import", until: "conflict" });
 
-      cy.log("make sure conflict modal is displayed");
-      H.modal().within(() => {
-        cy.findByRole("heading", {
-          name: /Your local data will be overwritten by the remote branch/,
-        }).should("be.visible");
-      });
-      cy.findAllByRole("radio").should("have.length", 2);
-      cy.findByLabelText(/Create a new branch and push changes there/).should(
-        "be.visible",
-      );
-
-      cy.log("choose the delete option and pull");
-      cy.findByLabelText(/Delete unsynced changes/)
-        .should("be.visible")
-        .click();
-
-      cy.findByRole("button", { name: "Delete unsynced changes" }).click();
-
-      cy.log("wait for the forced import to replace local state");
-      cy.wait("@pullImport");
-      H.pollForTask({ taskName: "import" });
-      // The transforms list only refetches when the app's own poll observes the finished task,
-      // which also opens the sync-result modal; dismiss it so it doesn't overlay the list.
-      H.closeSyncResultModal();
-
-      cy.findByRole("treegrid").within(() => {
-        cy.log("check remote transform was pulled in");
-        cy.findByText("Imported Simple SQL transform").should("be.visible");
-        cy.log(
-          "check existing transform was removed after pulling from remote",
+        cy.log("make sure conflict modal is displayed");
+        H.modal().within(() => {
+          cy.findByRole("heading", {
+            name: /Your local data will be overwritten by the remote branch/,
+          }).should("be.visible");
+        });
+        cy.findAllByRole("radio").should("have.length", 2);
+        cy.findByLabelText(/Create a new branch and push changes there/).should(
+          "be.visible",
         );
-        cy.findByText("Batman's Existing Transform").should("not.exist");
-      });
-    });
+
+        cy.log("choose the delete option and pull");
+        cy.findByLabelText(/Delete unsynced changes/)
+          .should("be.visible")
+          .click();
+
+        cy.findByRole("button", { name: "Delete unsynced changes" }).click();
+
+        cy.log("wait for the forced import to replace local state");
+        cy.wait("@pullImport");
+        H.pollForTask({ taskName: "import" });
+        // The refreshed list arrives with the app's next poll, which also opens the result modal
+        H.closeSyncResultModal();
+
+        cy.findByRole("treegrid").within(() => {
+          cy.log("check remote transform was pulled in");
+          cy.findByText("Imported Simple SQL transform").should("be.visible");
+          cy.log(
+            "check existing transform was removed after pulling from remote",
+          );
+          cy.findByText("Batman's Existing Transform").should("not.exist");
+        });
+      },
+    );
 
     it("can push to a new branch", () => {
       cy.intercept("POST", "/api/ee/remote-sync/export").as("exportChanges");

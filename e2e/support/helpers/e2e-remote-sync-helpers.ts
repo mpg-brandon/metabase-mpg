@@ -252,14 +252,9 @@ const MAIN_MENU_OPTION_RE = /Pull changes|Push changes/;
 const clickGitSyncOption = (
   getOption: () => Cypress.Chainable<JQuery<HTMLElement>>,
 ) => {
-  // Mantine renders combobox options as divs, so `.should("not.be.disabled")` matches nothing and
-  // passes instantly even while the option is disabled, and a click on a disabled option is
-  // silently swallowed (the menu stays open, no request fires). The Pull/Push options stay
-  // disabled until the has-remote-changes / dirty-state queries resolve, and those are real git
-  // round-trips that only start once the menu opens. Gate on the attribute Mantine actually sets
-  // so Cypress retries until the option is clickable. The assertion is a separate statement
-  // because `.should("not.have.attr", ...)` yields the attribute value, not the element.
+  // Clicks are swallowed while `data-combobox-disabled` is set (cleared once the git round-trips resolve)
   getOption().should("not.have.attr", "data-combobox-disabled");
+  // Separate statement: `.should("not.have.attr", ...)` yields the attribute value, not the element
   getOption().realClick();
   cy.get("body").then(($body) => {
     const mainMenuStillOpen =
@@ -356,10 +351,8 @@ export const waitForTask = (
   });
 };
 
-// Poll for a task's terminal state by actively querying the endpoint.
-// Use this when the app isn't loaded yet (e.g., in setup helpers before cy.visit), or to confirm
-// server-side settling independently of the UI's own polling. `until` is the terminal status the
-// caller expects; reaching a different terminal status throws.
+// Poll for a task's terminal state by actively querying the endpoint; `until` is the expected status.
+// Use this when the app isn't loaded yet, or to confirm server-side settling independently of the UI.
 export const pollForTask = (
   {
     taskName,
