@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { t } from "ttag";
 
-import { LighthouseIllustration } from "metabase/common/components/LighthouseIllustration";
 import { useHasTokenFeature } from "metabase/common/hooks";
 import { getUser, getUserIsAdmin } from "metabase/current-user";
 import { useSelector } from "metabase/redux";
@@ -48,22 +47,19 @@ export const HomeLayout = ({ children }: HomeLayoutProps): ReactNode => {
       mih="100%"
       bg="background_page-secondary"
     >
-      {landingPageIllustration &&
-        (landingPageIllustration.isDefault ? (
-          <LighthouseIllustration />
-        ) : (
-          <Box
-            data-testid="landing-page-illustration"
-            pos="absolute"
-            inset={0}
-            bgsz="100% auto"
-            bgr="no-repeat"
-            bgp="bottom"
-            style={{
-              backgroundImage: `url(${landingPageIllustration.src})`,
-            }}
-          />
-        ))}
+      {landingPageIllustration && !landingPageIllustration.isDefault && (
+        <Box
+          data-testid="landing-page-illustration"
+          pos="absolute"
+          inset={0}
+          bgsz="100% auto"
+          bgr="no-repeat"
+          bgp="bottom"
+          style={{
+            backgroundImage: `url(${landingPageIllustration.src})`,
+          }}
+        />
+      )}
       <HomeGreeting />
       {isAdmin && (
         <Tooltip label={t`Pick a dashboard to serve as the homepage`}>
