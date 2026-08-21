@@ -22,8 +22,8 @@ const deprecatedColors = {
   "background-selected":
     "color-mix(in srgb, var(--mb-color-core-brand) 21%, transparent)",
   "background-primary": baseColors.white,
-  "background-secondary": baseColors.orion[5],
-  "background-tertiary": baseColors.orion[10],
+  "background-secondary": "hsla(214, 54%, 98%, 1)", // MPG canvas (#f5f8fc)
+  "background-tertiary": "hsla(212, 62%, 95%, 1)", // MPG elevated canvas (#eef4fb)
   "background-primary-inverse": baseColors.orion[80],
   "background-secondary-inverse": baseColors.orion[70],
   "background-tertiary-inverse": baseColors.orion[40],
@@ -59,14 +59,14 @@ const deprecatedColors = {
   "text-tertiary": baseColors.orionAlpha[40],
   "text-tertiary-inverse": baseColors.orionAlphaInverse[40],
   "text-hover": baseColors.brand[60],
-  "text-secondary-opaque": baseColors.orion[60],
+  "text-secondary-opaque": "hsla(215, 16%, 47%, 1)", // MPG muted text (#64748b)
   warning: baseColors.dubloon[30],
   "background-warning": baseColors.dubloon[5],
   "background-warning-secondary": baseColors.dubloon[20],
   info: baseColors.orion[40],
   "background-info": baseColors.orion[10],
   white: baseColors.white,
-  border: baseColors.orion[20],
+  border: "hsla(214, 56%, 91%, 1)", // MPG border (#dbe7f7)
   "border-strong": baseColors.orionAlpha[30],
   "border-stronger": baseColors.orionAlpha[50],
   "border-subtle": baseColors.orionAlpha[10],
@@ -82,9 +82,9 @@ const actualColors = {
     "color-mix(in srgb, var(--mb-color-core-brand) 7%, transparent)",
   "background_page-primary": baseColors.white,
   "background_page-primary-inverse": baseColors.orion[95],
-  "background_page-secondary": baseColors.orion[5],
+  "background_page-secondary": "hsla(214, 54%, 98%, 1)", // MPG canvas (#f5f8fc)
   "background_page-secondary-inverse": baseColors.orion[100],
-  "background_page-tertiary": baseColors.orion[10],
+  "background_page-tertiary": "hsla(212, 62%, 95%, 1)", // MPG elevated canvas (#eef4fb)
   "background_page-tertiary-inverse": baseColors.orion[110],
   "background_surface-brand-strong": baseColors.brand[60],
   "background_surface-brand-strong-hover": baseColors.brand[70],
@@ -123,7 +123,7 @@ const actualColors = {
   "background_surface-warning-strong": baseColors.dubloon[20],
   "border-brand": baseColors.brand[10],
   "border-filter": baseColors.filter[20],
-  "border-neutral": baseColors.orion[20],
+  "border-neutral": "hsla(214, 56%, 91%, 1)", // MPG border (#dbe7f7)
   "border-neutral-strong": baseColors.orionAlpha[30],
   "border-neutral-strongest": baseColors.orionAlpha[50],
   "border-neutral-subtle": baseColors.orionAlpha[10],
@@ -163,9 +163,9 @@ const actualColors = {
   "text-disabled": baseColors.orionAlpha[40],
   "text-disabled-inverse": baseColors.orionAlphaInverse[40],
   "text-filter": baseColors.filter[50],
-  "text-primary": baseColors.orionAlpha[80],
+  "text-primary": "hsla(221, 39%, 11%, 1)", // MPG ink (#111827)
   "text-primary-inverse": baseColors.orionAlphaInverse[80],
-  "text-secondary": baseColors.orionAlpha[60],
+  "text-secondary": "hsla(215, 16%, 47%, 1)", // MPG muted text (#64748b)
   "text-secondary-inverse": baseColors.orionAlphaInverse[60],
   "text-selected": baseColors.orionAlpha[80],
   "text-syntax-parameter": baseColors.mango[60],
