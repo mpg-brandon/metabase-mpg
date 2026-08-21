@@ -8,24 +8,26 @@ interface LogoIconProps {
 }
 
 export const DefaultLogoIcon = ({
+  dark = false,
   height = 32,
-  width,
+  width = 96,
 }: LogoIconProps) => {
   return (
     <svg
-      viewBox="0 0 125 125"
+      viewBox="0 0 170 70"
       width={width}
       height={height}
       data-testid="main-logo"
       role="img"
-      aria-label="MPG SmartBIT"
+      aria-label="Market Performance Group"
     >
-      <title>MPG SmartBIT</title>
+      <title>Market Performance Group</title>
       <image
-        href="/app/assets/img/mpg-smartbit-mark.png"
-        width="125"
-        height="125"
+        href="/app/assets/img/mpg-logo-light-toolbar.svg"
+        width="170"
+        height="70"
         preserveAspectRatio="xMidYMid meet"
+        style={{ filter: dark ? "brightness(0) invert(1)" : undefined }}
       />
     </svg>
   );
