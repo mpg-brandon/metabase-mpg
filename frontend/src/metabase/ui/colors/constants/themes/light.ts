@@ -31,11 +31,11 @@ const deprecatedColors = {
   "background-error": baseColors.lobster[10],
   "background-success": baseColors.palm[5],
   "background-success-secondary": baseColors.palm[20],
-  brand: baseColors.blue[40],
+  brand: "#2563EB", // MPG primary blue
   "brand-hover": baseColors.brand[50],
   danger: baseColors.lobster[50],
   error: baseColors.lobster[50],
-  filter: baseColors.octopus[50],
+  filter: "#3B82F6", // MPG filter blue
   focus: baseColors.blue[20],
   "icon-brand": baseColors.brand[50], // Matches text-brand
   "icon-primary": baseColors.orionAlpha[80], // Matches text-primary
@@ -43,7 +43,7 @@ const deprecatedColors = {
   "icon-secondary": baseColors.orionAlpha[60], // Matches text-secondary
   "illustration-brand-secondary": baseColors.brand[10],
   "illustration-brand-tertiary": baseColors.brand[5],
-  "metabase-brand": baseColors.blue[40],
+  "metabase-brand": "#2563EB", // MPG primary blue
   "metabase-brand-hover": baseColors.blue[30],
   "saturated-blue": baseColors.ocean[60],
   "saturated-green": baseColors.palm[60],
@@ -132,7 +132,7 @@ const actualColors = {
   "core-gold": baseColors.gold,
   "core-green-saturated": baseColors.palm[60],
   "core-info": baseColors.orion[40],
-  "core-metabase_brand": baseColors.blue[40],
+  "core-metabase_brand": "#2563EB", // MPG primary blue
   "core-metabase_brand-hover": baseColors.blue[30],
   "core-purple-saturated": baseColors.octopus[60],
   "core-red-saturated": baseColors.lobster[60],
