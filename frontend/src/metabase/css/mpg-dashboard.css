@@ -1,0 +1,68 @@
+:root {
+  --mpg-dashboard-canvas: #f7f9fc;
+  --mpg-dashboard-ink: #0e2233;
+  --mpg-dashboard-muted: #5c7386;
+  --mpg-dashboard-soft: #92a4b4;
+  --mpg-dashboard-line: #d9e3ec;
+}
+
+body {
+  background: var(--mpg-dashboard-canvas);
+  color: var(--mpg-dashboard-ink);
+  font-family: "DM Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+[data-testid="dashboard-root"],
+[data-testid="dashboard-grid"] {
+  background: transparent !important;
+}
+
+[data-testid="dashboard-grid"] {
+  gap: 8px !important;
+}
+
+[data-testid="dashcard-container"],
+[data-testid="dashcard"] {
+  border-radius: 12px !important;
+}
+
+[data-testid="dashcard"] {
+  background: #fff !important;
+  border: 1px solid var(--mpg-dashboard-line) !important;
+  box-shadow: 0 5px 14px rgba(14, 34, 51, 0.06), 0 1px 2px rgba(14, 34, 51, 0.04) !important;
+  overflow: hidden !important;
+}
+
+[data-testid="dashcard"] h2,
+[data-testid="dashcard"] h3,
+[data-testid="dashcard"] [data-testid="legend-caption-title"] {
+  color: var(--mpg-dashboard-ink) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+[data-testid="dashcard"] [data-testid="visualization-root"] svg text {
+  fill: var(--mpg-dashboard-soft) !important;
+  font-family: "DM Sans", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  font-size: 10.5px !important;
+  font-weight: 500 !important;
+}
+
+[data-testid="dashcard"] [data-testid="visualization-root"] svg text[font-weight="bold"] {
+  fill: var(--mpg-dashboard-ink) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+}
+
+[data-testid="dashcard"] [data-testid="legend-label"],
+[data-testid="dashcard"] [data-testid="legend-caption"] {
+  color: var(--mpg-dashboard-muted) !important;
+  font-size: 10.5px !important;
+  font-weight: 600 !important;
+}
+
+[data-testid="dashcard"] [data-testid="visualization-root"] svg line,
+[data-testid="dashcard"] [data-testid="visualization-root"] svg path.domain {
+  stroke: rgba(146, 164, 180, 0.22) !important;
+}
