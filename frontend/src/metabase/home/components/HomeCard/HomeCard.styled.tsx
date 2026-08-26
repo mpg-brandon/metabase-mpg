@@ -2,10 +2,7 @@
 import styled from "@emotion/styled";
 
 import { Link } from "metabase/common/components/Link";
-import {
-  breakpointMinLarge,
-  breakpointMinSmall,
-} from "metabase/styled-components/theme";
+import { breakpointMinLarge } from "metabase/styled-components/theme";
 import { alpha } from "metabase/ui/colors";
 
 export const CardRoot = styled(Link)`
@@ -16,11 +13,8 @@ export const CardRoot = styled(Link)`
   border-radius: 0.5rem;
   background-color: var(--mb-color-background_page-primary);
   box-shadow: 0 7px 20px var(--mb-color-shadow-default);
+  width: 100%;
   max-width: 100%;
-
-  ${breakpointMinSmall} {
-    max-width: 50%;
-  }
 
   ${breakpointMinLarge} {
     padding: 1.5rem;

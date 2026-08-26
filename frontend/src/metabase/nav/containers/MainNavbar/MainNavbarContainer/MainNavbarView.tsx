@@ -54,6 +54,7 @@ import type { SelectedItem } from "../types";
 import { AddDataModal } from "./AddDataModal";
 import BookmarkList from "./BookmarkList";
 import { BrowseNavSection } from "./BrowseNavSection";
+import { DashboardsNavSection } from "./DashboardsNavSection";
 import { GettingStartedSection } from "./GettingStartedSection";
 
 type Props = {
@@ -234,6 +235,15 @@ export function MainNavbarView({
               </ErrorBoundary>
             </SidebarSection>
           )}
+
+          <SidebarSection>
+            <ErrorBoundary>
+              <DashboardsNavSection
+                dashboardItem={dashboardItem}
+                onItemSelect={onItemSelect}
+              />
+            </ErrorBoundary>
+          </SidebarSection>
 
           {/* Tenant users don't see the section about "External collections" */}
           {showExternalCollectionsSection && (

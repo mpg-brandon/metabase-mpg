@@ -40,9 +40,9 @@ export const HomeLayout = ({ children }: HomeLayoutProps): ReactNode => {
       pos="relative"
       p={{
         base: "1rem",
-        md: "3rem 4rem",
-        lg: "4rem 7rem 2rem",
-        xl: "10rem 15rem 4rem",
+        md: "2.5rem 4rem",
+        lg: "3rem 6rem",
+        xl: "4rem 8rem",
       }}
       mih="100%"
       bg="background_page-secondary"
@@ -78,10 +78,11 @@ export const HomeLayout = ({ children }: HomeLayoutProps): ReactNode => {
       <Box
         pos="relative"
         mt={{
-          base: "2.5rem",
-          md: "4rem",
-          lg: "6rem",
+          base: "2rem",
+          md: "3rem",
         }}
+        maw="90rem"
+        mx="auto"
       >
         {children}
       </Box>
