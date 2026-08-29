@@ -23,6 +23,10 @@ ENV PATH="/root/.local/bin:$PATH"
 
 COPY . .
 
+# Windows worktrees can materialize executable scripts with CRLF endings. The
+# Linux builder requires LF endings, including for scripts called by build.sh.
+RUN find bin modules -type f \( -name '*.sh' -o -perm /111 \) -exec sed -i 's/\r$//' {} +
+
 # version is pulled from git, but git doesn't trust the directory due to different owners
 RUN git config --global --add safe.directory /home/node
 

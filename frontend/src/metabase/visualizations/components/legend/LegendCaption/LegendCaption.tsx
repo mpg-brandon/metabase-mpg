@@ -15,6 +15,7 @@ import { LegendActions } from "../LegendActions";
 import {
   LegendCaptionRoot,
   LegendDescriptionIcon,
+  LegendInlineDescription,
   LegendLabel,
   LegendLabelIcon,
   LegendRightContent,
@@ -36,6 +37,7 @@ interface LegendCaptionProps {
   className?: string;
   title: string;
   description?: string;
+  inlineDescription?: string | null;
   getHref?: () => string | undefined;
   icon?: IconProps | null;
   actionButtons?: React.ReactNode;
@@ -49,6 +51,7 @@ export const LegendCaption = ({
   className,
   title,
   description,
+  inlineDescription,
   getHref,
   icon,
   actionButtons,
@@ -148,6 +151,13 @@ export const LegendCaption = ({
       <LegendRightContent>
         {actionButtons && <LegendActions>{actionButtons}</LegendActions>}
       </LegendRightContent>
+      {inlineDescription && (
+        <LegendInlineDescription data-testid="legend-caption-inline-description">
+          <Markdown compact disallowHeading unstyleLinks>
+            {inlineDescription}
+          </Markdown>
+        </LegendInlineDescription>
+      )}
     </LegendCaptionRoot>
   );
 };

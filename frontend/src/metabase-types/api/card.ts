@@ -47,9 +47,8 @@ export type CardCreationType =
 export type CardDashboardInfo = Pick<Dashboard, "id" | "name">;
 export type CardDocumentInfo = Pick<Document, "id" | "name">;
 
-export interface Card<
-  Q extends DatasetQuery = DatasetQuery,
-> extends UnsavedCard<Q> {
+export interface Card<Q extends DatasetQuery = DatasetQuery>
+  extends UnsavedCard<Q> {
   id: CardId;
   entity_id: BaseEntityId;
   created_at: string;
@@ -306,6 +305,12 @@ export type ColumnSettings = TimeOnlyOptions & {
  * result column names.
  */
 export type VisualizationSettings = {
+  /** Static narrative rendered beneath a dashboard card title. */
+  "card.narrative"?: string;
+
+  /** Result column whose first non-empty value is rendered beneath the title. */
+  "card.narrative_column"?: string;
+
   /** Show value labels directly on supported chart marks. */
   "graph.show_values"?: boolean;
 

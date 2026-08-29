@@ -438,6 +438,38 @@ export function DashCardVisualization({
     return settings["card.title"] ?? series?.[0].card.name ?? "";
   }, [series]);
 
+  const inlineDescription = useMemo(() => {
+    const staticNarrative = dashcard.visualization_settings["card.narrative"];
+    const narrativeColumn =
+      dashcard.visualization_settings["card.narrative_column"];
+
+    if (!narrativeColumn) {
+      return staticNarrative;
+    }
+
+    for (const item of series) {
+      const columns = item.data?.cols ?? [];
+      const columnIndex = columns.findIndex(
+        (column) =>
+          column.name === narrativeColumn ||
+          column.display_name === narrativeColumn,
+      );
+      if (columnIndex < 0) {
+        continue;
+      }
+
+      const narrative = item.data?.rows.find((row) => {
+        const value = row[columnIndex];
+        return typeof value === "string" && value.trim().length > 0;
+      })?.[columnIndex];
+      if (typeof narrative === "string") {
+        return narrative;
+      }
+    }
+
+    return staticNarrative;
+  }, [dashcard.visualization_settings, series]);
+
   const fontFamily = useSelector((state) =>
     getSetting(state, "application-font"),
   );
@@ -574,6 +606,7 @@ export function DashCardVisualization({
           gridSize={gridSize}
           totalNumGridCols={totalNumGridCols}
           headerIcon={headerIcon}
+          inlineDescription={inlineDescription}
           expectedDuration={expectedDuration}
           error={error?.message}
           errorIcon={error?.icon}

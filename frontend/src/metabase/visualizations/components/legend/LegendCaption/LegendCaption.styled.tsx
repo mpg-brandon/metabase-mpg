@@ -8,8 +8,22 @@ import { LegendLabel as BaseLegendLabel } from "../LegendLabel";
 
 export const LegendCaptionRoot = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   min-width: 0;
+`;
+
+export const LegendInlineDescription = styled.div`
+  flex-basis: 100%;
+  min-width: 0;
+  padding: 0.125rem 0 0.25rem;
+  color: var(--mb-color-text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+
+  p {
+    margin: 0;
+  }
 `;
 
 export const LEGEND_LABEL_FONT_SIZE = "0.875rem";

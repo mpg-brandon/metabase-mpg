@@ -120,6 +120,7 @@ type OnChangeCardAndRunOpts = {
 
 type VisualizationOwnProps = {
   actionButtons?: ReactNode | null;
+  inlineDescription?: string | null;
   className?: string;
   dashboard?: Dashboard;
   dashcard?: DashboardCard;
@@ -686,6 +687,7 @@ class Visualization extends PureComponent<
       hasDevWatermark,
       headerIcon,
       highlighted,
+      inlineDescription,
       isAction,
       isDashboard,
       isDocument,
@@ -887,6 +889,7 @@ class Visualization extends PureComponent<
                 settings={settings}
                 icon={headerIcon}
                 actionButtons={extra}
+                inlineDescription={inlineDescription}
                 hasInfoTooltip={!isDashboard || !isEditing}
                 titleMenuItems={titleMenuItems}
                 width={width}

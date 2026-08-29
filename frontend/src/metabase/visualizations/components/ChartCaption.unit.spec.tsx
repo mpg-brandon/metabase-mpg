@@ -106,6 +106,17 @@ describe("ChartCaption", () => {
     expect(queryIcon("info")).not.toBeInTheDocument();
   });
 
+  it("should render an inline narrative beneath the title", () => {
+    setup({
+      series: getSeries({ card: createMockCard({ name: "Monthly trend" }) }),
+      inlineDescription: "AUR moved from **$6.69** to **$7.34**.",
+    });
+
+    expect(
+      screen.getByTestId("legend-caption-inline-description"),
+    ).toHaveTextContent("AUR moved from $6.69 to $7.34.");
+  });
+
   describe("title sources", () => {
     it("should use card.title from settings as highest priority", () => {
       setup({

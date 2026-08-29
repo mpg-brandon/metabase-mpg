@@ -17,6 +17,7 @@ interface ChartCaptionProps {
   settings: VisualizationSettings;
   icon?: IconProps | null;
   actionButtons?: ReactNode;
+  inlineDescription?: string | null;
   hasInfoTooltip?: boolean;
   width?: number;
   getHref?: () => string | undefined;
@@ -31,6 +32,7 @@ const ChartCaption = ({
   settings,
   icon,
   actionButtons,
+  inlineDescription,
   hasInfoTooltip,
   onChangeCardAndRun,
   getHref,
@@ -60,6 +62,7 @@ const ChartCaption = ({
     <ChartCaptionRoot
       title={title}
       description={description}
+      inlineDescription={inlineDescription}
       getHref={canSelectTitle ? getHref : undefined}
       icon={icon}
       actionButtons={actionButtons}
