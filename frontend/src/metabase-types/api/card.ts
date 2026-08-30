@@ -446,6 +446,12 @@ export type VisualizationSettings = {
   /** Use compact formatting for the primary scalar number. */
   "scalar.compact_primary_number"?: boolean;
 
+  /** Line color for KPI-with-sparkline visualizations. */
+  "kpi_sparkline.color"?: string;
+
+  /** Fill the area beneath a KPI sparkline. */
+  "kpi_sparkline.show_area"?: boolean;
+
   /** Segment configuration for scalar visualizations. */
   "scalar.segments"?: ScalarSegment[];
 

@@ -178,6 +178,7 @@ function getRecommendedVisualizations(
       "bar",
       "combo",
       "smartscalar",
+      "kpi_sparkline",
       "row",
       "waterfall",
       "scatter",

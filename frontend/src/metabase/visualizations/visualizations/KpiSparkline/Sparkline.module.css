@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.sparkline {
+  display: block;
+  min-height: 0;
+  overflow: visible;
+}
+
+.lastPoint {
+  position: absolute;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border: 2px solid var(--mb-color-bg-white);
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px currentColor;
+  transform: translate(0, -50%);
+}
+
+.line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}

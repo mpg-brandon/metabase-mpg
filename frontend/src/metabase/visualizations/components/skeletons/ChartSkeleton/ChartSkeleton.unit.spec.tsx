@@ -24,6 +24,7 @@ const chartSkeletonDisplayTypes: CardDisplayType[] = [
   "scalar",
   "scatter",
   "smartscalar",
+  "kpi_sparkline",
   "waterfall",
 ];
 

@@ -76,7 +76,11 @@ const ChartSkeleton = ({
   name,
   className,
 }: ChartSkeletonProps) => {
-  if (display === "scalar" || display === "smartscalar") {
+  if (
+    display === "scalar" ||
+    display === "smartscalar" ||
+    display === "kpi_sparkline"
+  ) {
     return (
       <ScalarSkeleton
         className={className}

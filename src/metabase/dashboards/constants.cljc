@@ -30,6 +30,7 @@
    :funnel      {:min {:width 4 :height 3} :default {:width 12 :height 6}}
    :progress    {:min {:width 4 :height 3} :default {:width 12 :height 6}}
    :smartscalar {:min {:width 2 :height 2} :default {:width 6 :height 3}}
+   :kpi_sparkline {:min {:width 2 :height 2} :default {:width 6 :height 3}}
    :map         {:min {:width 4 :height 3} :default {:width 12 :height 6}}
    :object      {:min {:width 4 :height 3} :default {:width 12 :height 9}}
    :row         {:min {:width 4 :height 3} :default {:width 12 :height 6}}

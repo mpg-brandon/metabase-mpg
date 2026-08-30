@@ -224,6 +224,19 @@ const emptyVizConfig: Record<SupportedDisplayType, EmptyVizConfig> = {
       return t`E.g. Count of orders grouped by Month`;
     },
   },
+  kpi_sparkline: {
+    get imgSrc() {
+      return getSubpathSafeUrl(
+        "app/assets/img/empty-states/visualizations/smartscalar.svg",
+      );
+    },
+    get primaryText() {
+      return t`Then pick an aggregate metric (such as the Average or Sum) and a time column to group by.`;
+    },
+    get secondaryText() {
+      return t`E.g. Count of orders grouped by Month`;
+    },
+  },
   treemap: {
     get imgSrc() {
       return getSubpathSafeUrl(

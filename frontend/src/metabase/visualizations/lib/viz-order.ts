@@ -11,6 +11,7 @@ export const DEFAULT_VIZ_ORDER: CardDisplayType[] = [
   "combo",
   "pivot",
   "smartscalar",
+  "kpi_sparkline",
   "gauge",
   "progress",
   "funnel",

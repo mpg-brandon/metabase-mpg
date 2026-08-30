@@ -18,6 +18,7 @@ const CTAChartTypes = [
   "combo",
   "pivot",
   "smartscalar",
+  "kpi_sparkline",
   "gauge",
   "progress",
   "scatter",

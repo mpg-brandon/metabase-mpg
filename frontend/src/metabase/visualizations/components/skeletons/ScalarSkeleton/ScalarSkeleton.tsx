@@ -13,7 +13,7 @@ const ScalarSkeleton = ({
   actionMenu,
   className,
 }: {
-  scalarType?: "scalar" | "smartscalar";
+  scalarType?: "scalar" | "smartscalar" | "kpi_sparkline";
   name?: string | null;
   description?: string | null;
   actionMenu?: JSX.Element | null;
@@ -30,7 +30,7 @@ const ScalarSkeleton = ({
         description={description}
         size="large"
       />
-      {scalarType === "smartscalar" && (
+      {scalarType !== "scalar" && (
         <SkeletonBottomImage
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 182 8"

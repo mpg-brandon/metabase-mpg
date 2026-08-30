@@ -51,6 +51,7 @@ import { BOXPLOT_CHART_DEFINITION } from "./visualizations/BoxPlot/definition";
 import { COMBO_CHART_DEFINITION } from "./visualizations/ComboChart/definition";
 import { FUNNEL_CHART_DEFINITION } from "./visualizations/Funnel/definition";
 import { GAUGE_CHART_DEFINITION } from "./visualizations/Gauge/definition";
+import { KPI_SPARKLINE_CHART_DEFINITION } from "./visualizations/KpiSparkline/definition";
 import { LINE_CHART_DEFINITION } from "./visualizations/LineChart/definition";
 import { LIST_DEFINITION } from "./visualizations/List/definition";
 import { MAP_VIZ_DEFINITION } from "./visualizations/Map/definition";
@@ -84,6 +85,11 @@ function registerVisualizationComponents() {
     import(
       /* webpackChunkName: "viz-smart-scalar" */ "./visualizations/SmartScalar"
     ).then((module) => module.SmartScalar),
+  );
+  registerVisualization(KPI_SPARKLINE_CHART_DEFINITION, () =>
+    import(
+      /* webpackChunkName: "viz-kpi-sparkline" */ "./visualizations/KpiSparkline"
+    ).then((module) => module.KpiSparkline),
   );
   registerVisualization(PROGRESS_CHART_DEFINITION, () =>
     import(

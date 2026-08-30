@@ -27,6 +27,7 @@ export const cardDisplayTypes = [
   "combo",
   "pivot",
   "smartscalar",
+  "kpi_sparkline",
   "gauge",
   "progress",
   "funnel",
